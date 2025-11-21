@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Pristine Technologies – Resume Matcher (AI Based)</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" type="image/png" href="assets/logo.png" />
+  <meta name="theme-color" content="#B9A121" />
+</head>
+<body>
+  <header class="app-header">
+    <div class="brand">
+      <img src="assets/logo.png" alt="Pristine Technologies Logo" class="logo" />
+      <div class="title-group">
+        <h1>Pristine Technologies</h1>
+        <h2>Resume Matcher (AI Based)</h2>
+      </div>
+    </div>
+    <div class="api-key">
+      <label for="apiKey"><span class="label">Gemini API key:</span></label>
+      <input type="password" id="apiKey" placeholder="Enter your Google Gemini API key" />
+      <button class="btn btn-gold" id="saveKeyBtn" title="Save in browser local storage">Save</button>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="card">
+      <h3>Job description input</h3>
+      <div class="section-grid">
+        <div>
+          <label for="jobDescription" class="label">Manual input</label>
+          <textarea id="jobDescription" rows="8" placeholder="Paste the job description here..."></textarea>
+        </div>
+        <div>
+          <label for="jdFile" class="label">Upload .txt or .pdf</label>
+          <input type="file" id="jdFile" accept=".txt,.pdf" />
+          <div class="file-hint">Upload a single JD file. PDF text is extracted in-browser.</div>
+          <button class="btn btn-gold" id="loadJdBtn">Load JD from file</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h3>Upload resumes</h3>
+      <div class="section-grid">
+        <div>
+          <label for="resumeFiles" class="label">Upload .pdf, .txt, .docx (multiple)</label>
+          <input type="file" id="resumeFiles" accept=".pdf,.txt,.docx" multiple />
+          <div class="file-hint">You can select multiple files. PDF and DOCX text is extracted in-browser.</div>
+        </div>
+        <div class="actions">
+          <button class="btn btn-gold" id="processResumesBtn">Process and match</button>
+          <button class="btn btn-outline" id="clearAllBtn">Clear all</button>
+        </div>
+      </div>
+      <div id="uploadStatus" class="status"></div>
+    </section>
+
+    <section class="card">
+      <h3>Results dashboard</h3>
+      <div class="table-actions">
+        <button class="btn btn-gold" id="exportCsvBtn" disabled>Export shortlist (CSV)</button>
+      </div>
+      <div class="table-wrapper">
+        <table id="resultsTable">
+          <thead>
+            <tr>
+              <th>Candidate</th>
+              <th>Score</th>
+              <th>Matched keywords</th>
+              <th>Missing keywords</th>
+              <th>Summary</th>
+              <th>Recommendation</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="resultsBody">
+            <!-- Results populate here -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <footer class="app-footer">
+    <div class="footer-inner">
+      <span>© Pristine Technologies</span>
+      <span class="pipe">|</span>
+      <span>Built for HR screening. Static, client-side only.</span>
+    </div>
+  </footer>
+
+  <!-- Resume modal -->
+  <div id="resumeModal" class="modal" aria-hidden="true" role="dialog" aria-labelledby="resumeModalTitle">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 id="resumeModalTitle">Resume viewer</h4>
+        <button class="btn btn-icon" id="modalCloseBtn" aria-label="Close resume modal">✕</button>
+      </div>
+      <div class="modal-body">
+        <pre id="resumeModalText" class="resume-pre"></pre>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-outline" id="modalCloseFooterBtn">Close</button>
+      </div>
+    </div>
+    <div class="modal-backdrop"></div>
+  </div>
+
+  <!-- PDF.js (for in-browser PDF text extraction) -->
+  <script src="https://unpkg.com/pdfjs-dist@4.4.168/build/pdf.min.js"></script>
+  <script>
+    // Configure PDF.js worker
+    pdfjsLib.GlobalWorkerOptions.workerSrc = "https://unpkg.com/pdfjs-dist@4.4.168/build/pdf.worker.min.js";
+  </script>
+
+  <!-- Mammoth.js (for in-browser DOCX text extraction) -->
+  <script src="https://unpkg.com/mammoth@1.7.0/mammoth.browser.min.js"></script>
+
+  <!-- App logic -->
+  <script type="module" src="script.js"></script>
+</body>
+</html>
